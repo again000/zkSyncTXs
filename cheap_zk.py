@@ -51,7 +51,7 @@ def main():
 			elif choice == 4:
 				print(f"""Wallet: {web3.eth.account.from_key(key).address} and it's balance {"{:.8f}".format(check_balance_wallet(key))}""")
 			else:
-				print(f"Wrong choice number. 1 | 2 | 3")
+				print(f"Wrong choice number. 1 | 2 | 3 | 4")
 		except Exception as e:
 			print(f"Transaction failed for private key: {key} | Error: {e}")
 			failed_keys.append(key)
