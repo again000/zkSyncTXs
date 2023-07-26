@@ -26,8 +26,23 @@ def deposit(min_val, max_val, pvt_key):
 
 	signed_txn = web3.eth.account.sign_transaction(transaction, pvt_key)
 	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
-	print(f"Deposited {value_eth} ETH | Hash: {transaction_hash}")
 	random_sleep()
+	return print(f"Deposited {value_eth} ETH | Hash: {transaction_hash}")
+
+
+def deposit_swap(value_wei,pvt_key):
+	address = web3.eth.account.from_key(pvt_key).address
+	transaction = contract.functions.deposit().build_transaction({
+		'from': web3.to_checksum_address(address),
+		'value': value_wei,
+		'gasPrice': web3.to_wei(0.25, 'gwei'),
+		'nonce': web3.eth.get_transaction_count(web3.to_checksum_address(address))
+	})
+	transaction['gas'] = int(web3.eth.estimate_gas(transaction))
+	signed_txn = web3.eth.account.sign_transaction(transaction, pvt_key)
+	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
+	random_sleep()
+	return print(f"Deposited {value_eth} ETH | Hash: {transaction_hash}")
 
 
 def withdraw(pvt_key):
@@ -44,8 +59,8 @@ def withdraw(pvt_key):
 	transaction['gas'] = int(web3.eth.estimate_gas(transaction))
 	signed_txn = web3.eth.account.sign_transaction(transaction, pvt_key)
 	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
-	print(f"Withdrawing {web3.from_wei(balance, 'ether')} ETH for {address}\nHash: {transaction_hash}\nPrivate key: {pvt_key}")
 	random_sleep()
+	return print(f"Withdrawing {web3.from_wei(balance, 'ether')} ETH for {address}\nHash: {transaction_hash}\nPrivate key: {pvt_key}")
 
 def check_balance_wallet(pvt_key):
 	# we are using here pvt key and afterwards the function to get wallet for getting balance of native (eth)
