@@ -62,9 +62,9 @@ contract_abi = """[
 		"name": "getBalance",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "uint128",
 				"name": "",
-				"type": "uint256"
+				"type": "uint128"
 			}
 		],
 		"stateMutability": "view",

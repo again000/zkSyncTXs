@@ -1,1 +1,1 @@
-from .functions import random_sleep, deposit, withdraw, check_balance
+from .functions import random_sleep, deposit, withdraw, check_balance, check_balance_wallet

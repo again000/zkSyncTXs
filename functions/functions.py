@@ -2,6 +2,7 @@ from web3 import Web3
 from abi import contract_abi
 import random
 import time
+from settings import *
 
 
 def random_sleep():
@@ -46,8 +47,17 @@ def withdraw(pvt_key):
 	print(f"Withdrawing {web3.from_wei(balance, 'ether')} ETH for {address}\nHash: {transaction_hash}\nPrivate key: {pvt_key}")
 	random_sleep()
 
+def check_balance_wallet(pvt_key):
+	# we are using here pvt key and afterwards the function to get wallet for getting balance of native (eth)
+	web3 = Web3(Web3.HTTPProvider(RPC))
+	wallet_address = web3.eth.account.from_key(pvt_key).address
+	return web3.from_wei(web3.eth.get_balance(wallet_address),"ether")
+
+
 def check_balance(pvt_key):
-	address = web3.eth.account.from_key(pvt_key).address
-	balance = contract.functions.getBalance().call({'from': address})
+	web3 = Web3(Web3.HTTPProvider(RPC))
+	contract = web3.eth.contract(contract_address, abi=contract_abi)
+	address  = web3.eth.account.from_key(pvt_key).address
+	balance  = contract.functions.getBalance().call({'from': address})
 	print(f"Address: {address}\nPrivate key: {pvt_key}\nBalance: {web3.from_wei(balance, 'ether')} ETH\n")
-	return web3.from_wei(balance, 'ether')
+	return balance
