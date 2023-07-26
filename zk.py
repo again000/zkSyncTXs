@@ -29,19 +29,14 @@ def main():
 		try:
 			if choice == 1:
 				if 		swap_all_balance == True:
-					balance = check_balance_wallet(key)			
-					value = dc.Decimal.from_float(float("0.0000" + str(random.randrange(keep_value_from,keep_value_to))))
-					# balance minus value
-					value_eth = "{:.8f}".format(balance - value)   
-					value_wei = web3.to_wei(value_eth, 'ether')
-					deposit_swap(value_wei,pvt_key)
+					deposit_swap(keep_value_from,keep_value_to,key)
 				elif 	swap_all_balance == False:
 					deposit(eth_min, eth_max, key)
 				else:
 					print("Something wrong with settings.py")
 			elif choice == 2:
-				if 		swap_all_balance == True:
-					withdraw(key)
+				if 		swap_all_balance == True:   
+					withdraw_swap(keep_value_from, keep_value_to, key)
 				elif	swap_all_balance == False:
 					withdraw(key)
 				else:
