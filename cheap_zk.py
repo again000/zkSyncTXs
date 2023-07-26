@@ -6,7 +6,7 @@ from settings import *
 from functions import *
 import decimal as dc
 
-choice = int(input("\n----------------------\n1: deposit\n2: withdraw\n3: check balance\nChoice: "))
+choice = int(input("\n----------------------\n1: deposit\n2: withdraw\n3: check contract balance\n4: check wallet balance\nChoice: "))
 
 eth_min = float(eth_min)
 eth_max = float(eth_max)
@@ -48,6 +48,8 @@ def main():
 					print("Something wrong with settings.py")
 			elif choice == 3:
 				check_balance(key)
+			elif choice == 4:
+				print(f"""Wallet: {web3.eth.account.from_key(key).address} and it's balance {"{:.8f}".format(check_balance_wallet(key))}""")
 			else:
 				print(f"Wrong choice number. 1 | 2 | 3")
 		except Exception as e:
