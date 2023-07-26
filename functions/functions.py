@@ -23,7 +23,6 @@ def deposit(min_val, max_val, pvt_key):
 	})
 
 	transaction['gas'] = int(web3.eth.estimate_gas(transaction))
-
 	signed_txn = web3.eth.account.sign_transaction(transaction, pvt_key)
 	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
 	random_sleep()
