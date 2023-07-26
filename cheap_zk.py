@@ -3,6 +3,7 @@ from abi import contract_abi
 import random
 import time
 from settings import *
+from functions import *
 
 
 eth_min = float(eth_min)
@@ -13,65 +14,32 @@ web3 = Web3(Web3.HTTPProvider(RPC))
 contract_address = web3.to_checksum_address(contract_address)
 contract = web3.eth.contract(contract_address, abi=contract_abi)
 
-def random_sleep():
-    sleep_duration = random.randint(from_sec, to_sec)
-    print(f"Sleeping for {sleep_duration} seconds")
-    time.sleep(sleep_duration)
+choice = int(input("\n----------------------\n1: deposit\n2: withdraw\n3: check balance\nChoice: "))
 
-
-def deposit(min_val, max_val, pvt_key):
-	address = web3.eth.account.from_key(pvt_key).address
-	value_eth = "{:.8f}".format(random.uniform(min_val, max_val))
-	value_wei = web3.to_wei(value_eth, 'ether')
-	transaction = contract.functions.deposit().build_transaction({
-		'from': web3.to_checksum_address(address),
-		'value': value_wei,
-		'gasPrice': web3.to_wei(0.25, 'gwei'),
-		'nonce': web3.eth.get_transaction_count(web3.to_checksum_address(address))
-	})
-
-	transaction['gas'] = int(web3.eth.estimate_gas(transaction))
-
-	signed_txn = web3.eth.account.sign_transaction(transaction, pvt_key)
-	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
-	print(f"Deposited {value_eth} ETH | Hash: {transaction_hash}")
-	random_sleep()
-
-
-def withdraw(pvt_key):
-	address = web3.eth.account.from_key(pvt_key).address
-	balance = contract.functions.getBalance().call({'from': address})
-	transaction = contract.functions.withdraw(
-		balance
-	).build_transaction({
-		'from': web3.to_checksum_address(address),
-		'value': 0,
-		'gasPrice': web3.to_wei(0.25, 'gwei'),
-		'nonce': web3.eth.get_transaction_count(web3.to_checksum_address(address))
-	})
-	transaction['gas'] = int(web3.eth.estimate_gas(transaction))
-	signed_txn = web3.eth.account.sign_transaction(transaction, pvt_key)
-	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
-	print(f"Withdrawing {web3.from_wei(balance, 'ether')} ETH for {address}\nHash: {transaction_hash}\nPrivate key: {pvt_key}")
-	random_sleep()
-
-def check_balance(pvt_key):
-	address = web3.eth.account.from_key(pvt_key).address
-	balance = contract.functions.getBalance().call({'from': address})
-	print(f"Address: {address}\nPrivate key: {pvt_key}\nBalance: {web3.from_wei(balance, 'ether')} ETH\n")
 
 with open('keys.txt', 'r') as f:
     for line in f:
         line = line.strip()
         private_keys.append(line)
 
-choice = int(input("\n----------------------\n1: deposit\n2: withdraw\n3: check balance\nChoice: "))
+
 for key in private_keys:
     try:
         if choice == 1:
-              deposit(eth_min, eth_max, key)
+			if 		swap_all_balance == True:
+				check_balance(key)
+				deposit(eth_min, eth_max, key)
+			elif 	swap_all_balance == False:
+				deposit(eth_min, eth_max, key)
+			else:
+				print("Something wrong with settings.py")
         elif choice == 2:
-              withdraw(key)
+			if 		swap_all_balance == True:
+				withdraw(key)
+			elif	swap_all_balance == False::
+				withdraw(key)
+			else:
+				print("Something wrong with settings.py")
         elif choice == 3:
               check_balance(key)
         else:

@@ -1,2 +1,4 @@
 zkenv/
 keys.txt
+_pycache_/
+*.ipynb
