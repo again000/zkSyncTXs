@@ -14,6 +14,6 @@ swap_all_balance = True
 
 # от скольки монет оставлять
 # до скольки монет оставлять
-keep_value_from = 0
-keep_value_to   = 0
+keep_value_from = 1
+keep_value_to   = 5
 #----------#
