@@ -9,6 +9,8 @@ python -m pip install -r requirements.txt
 <!-- selects changes -->
 git add .
 <!-- records changes LOCALLY -->
-git commit
+git commit -m "new file" 
 <!-- shares changes -->
 git push
+
+git push --set-upstream https://github.com/again000/zkSyncTXs.git master
