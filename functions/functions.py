@@ -57,10 +57,28 @@ def withdraw(pvt_key):
 	random_sleep()
 	return print(f"Withdrawing {web3.from_wei(balance, 'ether')} ETH for {address}\nHash: {transaction_hash}\nPrivate key: {pvt_key}")
 
+def withdraw_swap(value_wei, pvt_key):
+	address = web3.eth.account.from_key(pvt_key).address
+	balance = contract.functions.getBalance().call({'from': address})
+	transaction = contract.functions.withdraw(
+		balance
+	).build_transaction({
+		'from': web3.to_checksum_address(address),
+		'value': 0,
+		'gasPrice': web3.to_wei(0.25, 'gwei'),
+		'nonce': web3.eth.get_transaction_count(web3.to_checksum_address(address))
+	})
+	transaction['gas'] = int(web3.eth.estimate_gas(transaction))
+	signed_txn = web3.eth.account.sign_transaction(transaction, pvt_key)
+	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
+	random_sleep()
+	return print(f"Withdrawing {web3.from_wei(balance, 'ether')} ETH for {address}\nHash: {transaction_hash}\nPrivate key: {pvt_key}")
+
 def check_balance_wallet(pvt_key):
 	# we are using here pvt key and afterwards the function to get wallet for getting balance of native (eth)
 	web3 = Web3(Web3.HTTPProvider(RPC))
 	wallet_address = web3.eth.account.from_key(pvt_key).address
+	random_sleep()
 	return web3.from_wei(web3.eth.get_balance(wallet_address),"ether")
 
 def check_balance(pvt_key):
@@ -68,5 +86,6 @@ def check_balance(pvt_key):
 	contract = web3.eth.contract(contract_address, abi=contract_abi)
 	address  = web3.eth.account.from_key(pvt_key).address
 	balance  = contract.functions.getBalance().call({'from': address})
+	random_sleep()
 	print(f"Address: {address}\nPrivate key: {pvt_key}\nBalance: {web3.from_wei(balance, 'ether')} ETH\n")
 	return balance
