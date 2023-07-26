@@ -4,12 +4,10 @@ import random
 import time
 from settings import *
 
-
 def random_sleep():
     sleep_duration = random.randint(from_sec, to_sec)
     print(f"Sleeping for {sleep_duration} seconds")
     time.sleep(sleep_duration)
-
 
 def deposit(min_val, max_val, pvt_key):
 	address = web3.eth.account.from_key(pvt_key).address
@@ -28,7 +26,6 @@ def deposit(min_val, max_val, pvt_key):
 	random_sleep()
 	return print(f"Deposited {value_eth} ETH | Hash: {transaction_hash}")
 
-
 def deposit_swap(value_wei,pvt_key):
 	address = web3.eth.account.from_key(pvt_key).address
 	transaction = contract.functions.deposit().build_transaction({
@@ -42,7 +39,6 @@ def deposit_swap(value_wei,pvt_key):
 	transaction_hash = web3.eth.send_raw_transaction(signed_txn.rawTransaction).hex()
 	random_sleep()
 	return print(f"Deposited {value_eth} ETH | Hash: {transaction_hash}")
-
 
 def withdraw(pvt_key):
 	address = web3.eth.account.from_key(pvt_key).address
@@ -66,7 +62,6 @@ def check_balance_wallet(pvt_key):
 	web3 = Web3(Web3.HTTPProvider(RPC))
 	wallet_address = web3.eth.account.from_key(pvt_key).address
 	return web3.from_wei(web3.eth.get_balance(wallet_address),"ether")
-
 
 def check_balance(pvt_key):
 	web3 = Web3(Web3.HTTPProvider(RPC))

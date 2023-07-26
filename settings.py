@@ -1,6 +1,4 @@
-
 #--CONFIG--#
-
 #Insert Private keys in keys.txt; One key per line | Приватные ключи в созданный файл keys.txt. По 1 в строку, не должны начинаться с 0x
 from_sec = 1      #|Wait from N seconds between transactions | Минимальное значение "ждать от N sec между транзакиями". Для рандомного выбора 
 to_sec = 100	    #|Wait to N seconds between transactions | Максиимальное значение "спать до N sec между транзакциями". Для рандомного выбора 
@@ -11,7 +9,6 @@ RPC = "https://mainnet.era.zksync.io" #|RPC for web3 provider. DO NOT CHANGE if 
 #----------#
 # flag true/false
 swap_all_balance = True
-
 # от скольки монет оставлять
 # до скольки монет оставлять
 keep_value_from = 1

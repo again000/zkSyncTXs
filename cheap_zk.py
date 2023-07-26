@@ -31,7 +31,8 @@ def main():
 				if 		swap_all_balance == True:
 					balance = check_balance_wallet(key)			
 					value = dc.Decimal.from_float(float("0.0000" + str(random.randrange(keep_value_from,keep_value_to))))
-					value_eth = "{:.8f}".format(balance - value)
+					# balance minus value
+					value_eth = "{:.8f}".format(balance - value)   
 					value_wei = web3.to_wei(value_eth, 'ether')
 					deposit_swap(value_wei,pvt_key)
 				elif 	swap_all_balance == False:
